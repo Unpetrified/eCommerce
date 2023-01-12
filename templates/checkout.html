@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block style %} <link rel="stylesheet" href="{% static 'css/checkout.css' %}"> {% endblock %}
+{% block title %} <title>Unpetrified | Checkout</title> {% endblock %}
+{% block content %} 
+<main>
+    <form action="" class="section">
+        <p class="container">
+            <input type="text" name="name" placeholder="Name">
+            <input type="email" name="email" placeholder="Email">
+        </p>
+        <p class="span">
+            Shipping Information
+        </p>
+        <p class="container">
+            <input type="text" name="address" placeholder="Address">
+            <input type="text" name="city" placeholder="City">
+        </p>
+        <p class="container">
+            <input type="text" name="state" placeholder="State">
+            <input type="number" name="zip" placeholder="Zip code">
+        </p>
+        <input type="submit" value="Continue" class="span">
+    </form>
+    <section class="section">
+        <p>
+            <a href="{% url 'cart' %}" class="back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M447.1 256C447.1 273.7 433.7 288 416 288H109.3l105.4 105.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448s-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L109.3 224H416C433.7 224 447.1 238.3 447.1 256z"/></svg>
+                Back to Cart
+            </a>
+        </p>
+        <p class="span order">
+            Order Summary
+        </p>
+        <section class="products">
+            <p class="span product">
+                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
+                <span>Product name</span>
+                <span>$46</span>
+                <span>x5</span>
+            </p>
+            <p class="span product">
+                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
+                <span>Product name</span>
+                <span>$46</span>
+                <span>x5</span>
+            </p>
+            <p class="span product">
+                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
+                <span>Product name</span>
+                <span>$46</span>
+                <span>x5</span>
+            </p>
+        </section>
+        <p class="span items">
+            Items:
+        </p>
+        <p class="span total">
+            Total: $
+        </p>
+    </section>
+</main>
+{% endblock %}
+{% block script %} <script src=""></script> {% endblock %}

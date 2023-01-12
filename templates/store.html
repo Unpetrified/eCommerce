@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% load static %}
+{%block style %}<link rel="stylesheet" href="{% static 'css/store.css' %}">{% endblock %}
+{%block title %}<title>Unpetrified | Shop</title>{% endblock %}
+{%block content %}
+
+    <main class="products">
+        {% for product in products reversed %}
+            <section class="product">
+                <img src="{{product.image.url}}" alt="" class="product-image">
+                <div class="product-name">{{product.name}}</div>
+                <div class="btns-price">
+                    <a href="" class="add-cart-btn"></a>
+                    <form action="" method="post" class="add-cart-btn">
+                        <input type="number" value="1" style="display: none;">
+                        <input type="submit" value="Add to Cart">
+                    </form>
+                    <a href="{% url 'view' product.id %}" class="view-product-btn">View</a>
+                    <span class="price">{{product.price}}</span>
+                </div>
+                <h1></h1>
+            </section>
+        {% endfor %}
+    </main>
+
+{% endblock %}
+{%block script %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

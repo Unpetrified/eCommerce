@@ -1,0 +1,141 @@
+body {
+    background-color: black;
+}
+
+.bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: .8;
+    z-index: -2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+header {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 1em;
+    box-shadow: 0 0 5px 5px rgba(211, 211, 211, 0.411);
+}
+
+header a {
+    text-decoration: none;
+}
+
+.logo {
+    width: 40%;
+    aspect-ratio: 5/1;
+}
+
+nav {
+    display: inline-block;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ul {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+nav li {
+    list-style: none;
+}
+
+.cart-btn {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.cart-btn {
+    position: relative;
+}
+
+.cart-btn svg {
+    width: 1.35em;
+}
+
+.cart-quantity {
+    content: "0";
+    font-size: .80rem;
+    color: rgba(255, 255, 255, 0.685);
+    background-color: rgba(255, 0, 0, 0.733);
+    padding: .1em .25em;
+    border-radius: 2em;
+    position: relative;
+    top: -15px;
+    right: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border-radius: .1em;
+    width: 50em;
+    margin: auto;
+}
+
+h3 {
+    margin: 1em 0;
+}
+
+.error {
+    text-align: left;
+    color: antiquewhite;
+}
+
+.errorlist {
+    display: none;
+}
+
+p {
+    display: flex;
+    flex-direction: column;
+    width: 40em;
+    margin-bottom: 1em;
+}
+
+input {
+    line-height: 2;
+    border: 1px solid black;
+    border-radius: 2em;
+    padding: .2em;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.submit {
+    padding: .5em 4em;
+    font-weight: 700;
+    background-color: lightblue;
+    border: none;
+    margin-bottom: .5em;
+}
+
+div {
+    margin: 1em 0;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(127, 255, 53);
+}

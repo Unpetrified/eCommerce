@@ -1,0 +1,17 @@
+{% extends 'registration.html' %}
+{%block title %}<title>Unpetrified | Login</title>{% endblock %}
+
+{%block form %}
+    <form action="" method="post">
+        <h3>Welcome Back</h3>
+        {% if form.errors %}
+            <div class="error">Incorrect login details. <a href="">Forgot password?</a></div>
+        {% endif %}
+        {% csrf_token %}
+        {{form.as_p}}
+        
+        <input type="submit" value="Login" class="submit">
+        <input type="hidden" name="next" value="{{ next }}">
+        <div>Not a member? <a href="{% url 'register' %}">Register</a></div>
+    </form>
+{% endblock %}

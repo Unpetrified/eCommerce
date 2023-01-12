@@ -1,0 +1,18 @@
+{% extends 'registration.html' %}
+{%block title %}<title>Unpetrified | Register</title>{% endblock %}
+
+{%block form %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3 class="heading">Register</h3>
+        <p><label>Choose a Username</label> <input type="text" name="username"></p>
+        <p class="error">{{username_error}}</p>
+        <p><label>Enter your Email</label> <input type="email" name="email"></p>
+        <p class="error">{{email_error}}</p>
+        <p><label>Pick a Password</label> <input type="password" name="password1"></p>
+        <p class="error">{{password_error}}</p>
+        <p><label>Confirm your Password</label> <input type="password" name="password2"></p>
+        <input type="submit" value="Sign Up" class="submit">
+        <div>Already a member? <a href="{% url 'login' %}">Login</a></div>
+    </form>
+{% endblock %}

@@ -1,0 +1,13 @@
+.back {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.7);
+    border: 1px solid;
+    border-radius: .2em;
+    padding: .2em 1em;
+    margin-top: 2em;
+}
+
+.back svg {
+    width: .5em;
+    fill: rgba(0, 0, 0, 0.7);
+}

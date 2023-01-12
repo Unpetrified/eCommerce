@@ -1,0 +1,65 @@
+.back {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.7);
+    border: 1px solid;
+    border-radius: .2em;
+    padding: .2em 1em;
+}
+
+.back svg {
+    width: .5em;
+    fill: rgba(0, 0, 0, 0.7);
+}
+
+main {
+    display: flex;
+    width: 97%;
+    margin: 1em auto;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.section {
+    padding: .5em .75em;
+    background-color: white;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+    margin-bottom: .5em;
+}
+
+.span {
+    margin: 1em 0;
+    width: 100%;
+    font-weight: 600;
+}
+
+input {
+    line-height: 1.1em;
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    padding: .5em;
+}
+
+form .span:last-of-type {
+    background-color: green;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.order {
+    font-size: 1.2em;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: 500;
+}
+
+.p_image {
+    width: 15%;
+}

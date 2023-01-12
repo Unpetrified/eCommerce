@@ -1,0 +1,114 @@
+body {
+    background-color: rgb(241, 241, 241);
+}
+
+main {
+    margin: 2em 8em;
+}
+
+section {
+    margin: 2em;
+    padding: 2em;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.315);
+    background-color: rgba(255, 255, 255);
+}
+
+p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cart_details {
+    margin-top: 2em;
+}
+
+.back {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.7);
+    border: 1px solid;
+    border-radius: .2em;
+    padding: .2em 1em;
+}
+
+.back svg {
+    width: .5em;
+    fill: rgba(0, 0, 0, 0.7);
+}
+
+.items, .total {
+    font-weight: 700;
+}
+
+.total::before {
+    content: "$";
+}
+
+.checkout {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(0, 151, 0);
+    font-weight: 700;
+    padding: .4em 1em;
+}
+
+.empty {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.1rem;
+    width: fit-content;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+table {
+    width: 100%;
+}
+
+th, td{
+    text-align: left;
+    padding: 0 0 1em 0;
+}
+
+.image {
+    width: 4em;
+}
+
+tr td:nth-child(3)::before,
+tr td:nth-child(5)::before {
+    content: "$";
+    font-weight: 600;
+}
+
+.quantity {
+    display: flex;
+}
+
+.quantity svg {
+    width: .75em;
+}
+
+.quantity span:first-child {
+    display: flex;
+    align-items: center;
+    width: 2em;
+}
+
+.increase-decrease {
+    margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.increase-decrease svg {
+    pointer-events: none;
+}
+
+.increase svg {
+    fill: rgb(0, 90, 0);
+    transform: rotate(-90deg);
+}
+
+.decrease svg {
+    fill: rgb(95, 0, 0);
+    transform: rotate(90deg);
+}
