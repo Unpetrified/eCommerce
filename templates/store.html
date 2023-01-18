@@ -7,16 +7,12 @@
     <main class="products">
         {% for product in products reversed %}
             <section class="product">
-                <img src="{{product.image.url}}" alt="" class="product-image">
+                <img src="{{product.getImageUrl}}" alt="" class="product-image">
                 <div class="product-name">{{product.name}}</div>
                 <div class="btns-price">
-                    <a href="" class="add-cart-btn"></a>
-                    <form action="" method="post" class="add-cart-btn">
-                        <input type="number" value="1" style="display: none;">
-                        <input type="submit" value="Add to Cart">
-                    </form>
+                    <a href="" class="add-cart-btn">Add to Cart</a>
                     <a href="{% url 'view' product.id %}" class="view-product-btn">View</a>
-                    <span class="price">{{product.price}}</span>
+                    <span class="price">{{product.price|floatformat:2}}</span>
                 </div>
                 <h1></h1>
             </section>

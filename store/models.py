@@ -1,9 +1,17 @@
 from django.db import models
 from django.core.validators import MaxLengthValidator
-from django.conf import settings
+from django.contrib.auth.models import User
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length = 30, null=False)
+    name = models.CharField(max_length = 100, null=False)
     price = models.FloatField()
     description = models.TextField(null = True,
         validators=[
@@ -11,7 +19,6 @@ class Product(models.Model):
             ],
         )
     image = models.ImageField(upload_to='item_images')
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -20,9 +27,53 @@ class Product(models.Model):
         self.price = round(self.price, 2)
         super(Product, self).save(*args, **kwargs)
 
-class User_Cart(models.Model):
-    items = models.TextField
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    @property
+    def getImageUrl(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null = True)
+    date_ordered = models.DateTimeField(auto_now_add = True)
+    complete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length = 200)
 
     def __str__(self):
-        return self.owner+"'s cart"
+        return self.transaction_id
+
+    @property
+    def getCartTotal(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.getTotal for item in orderitems])
+        return total
+
+    @property 
+    def getItemTotal(self):
+        orderItems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderItems])
+        return total
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null = True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True)
+    quantity = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add = True)
+
+    @property
+    def getTotal(self):
+        return self.product.price*self.quantity.__round__(2)
+
+class Shipping(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null = True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True)
+    address = models.CharField(max_length = 200)
+    city = models.CharField(max_length = 90)
+    state = models.CharField(max_length = 200)
+    date_added = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return self.address

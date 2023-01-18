@@ -1,18 +1,20 @@
-from itertools import product
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.models import User
-import json
-from .models import Product, User_Cart
+from .models import *
 
 class Store(View):
 
     def get(self, request):
-        # cart = {"iPad":["/static/media/book.jpg",9.99,7],"Google watch":["/static/media/watch.jpg",199.99,1],"Beats by Dre":["/static/media/headphones.jpg",299.99,1]}
         products = Product.objects.all()
-        # dump = json.dumps(cart)
-        # dumps = json.loads(dump)
         return render(request, 'store.html', {'products':products})
+
+    def post(self, request):
+        product_id = request.post['id']
+        product = Product.objects.get(id=product_id)
+        customer = request.user.customer
+        order = Order.objects.get_or_create(customer=customer, complete = False)
+        pass
 
 class View(View):
     
@@ -24,10 +26,13 @@ class Cart(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            cart = User_Cart.objects.get(owner=request.user)
-            return render(request, 'cart.html', {'cart':cart})
+            customer = request.user.customer
+            order, created = Order.objects.get_or_create(customer=customer, complete = False)
+            items = order.orderitem_set.all()
         else:
-            return render(request, 'cart.html')
+            items = []
+        context = {'cart':items, 'cartDetails':order}
+        return render(request, 'cart.html', context)
 
 class Checkout(View):
 

@@ -13,8 +13,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    border-radius: 1em;
-    box-shadow: 0 0 5px 5px rgba(211, 211, 211, 0.411);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 header a {
@@ -22,7 +21,7 @@ header a {
 }
 
 .logo {
-    width: 40%;
+    width: 20%;
     aspect-ratio: 5/1;
 }
 
@@ -43,6 +42,15 @@ ul {
 
 nav li {
     list-style: none;
+}
+
+.login {
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    gap: .5em;
+    padding: .25em .5em;
+    border-radius: 1em;
 }
 
 .cart-btn {
