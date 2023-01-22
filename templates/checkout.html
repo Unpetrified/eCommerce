@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block style %} <link rel="stylesheet" href="{% static 'css/checkout.css' %}"> {% endblock %}
-{% block title %} <title>Unpetrified | Checkout</title> {% endblock %}
+{% block title %} <title>Unpetrified | Checkout</title>{% endblock %}
 {% block content %} 
 <main>
     <form action="" class="section">
@@ -33,30 +33,20 @@
             Order Summary
         </p>
         <section class="products">
-            <p class="span product">
-                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
-                <span>Product name</span>
-                <span>$46</span>
-                <span>x5</span>
-            </p>
-            <p class="span product">
-                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
-                <span>Product name</span>
-                <span>$46</span>
-                <span>x5</span>
-            </p>
-            <p class="span product">
-                <img src="\templates\staticfiles\media\book.jpg" alt="product-image" class="p_image">
-                <span>Product name</span>
-                <span>$46</span>
-                <span>x5</span>
-            </p>
+            {% for item in cart %}
+                <p class="span product">
+                    <img src="{{item.product.getImageUrl}}" class="p_image">
+                    <span>{{item.product.name}}</span>
+                    <span>${{item.product.price|floatformat:2}}</span>
+                    <span>x{{item.quantity}}</span>
+                </p>
+            {% endfor %}
         </section>
         <p class="span items">
-            Items:
+            Items: {{cartDetails.getItemTotal}}
         </p>
         <p class="span total">
-            Total: $
+            Total: ${{cartDetails.getCartTotal}}
         </p>
     </section>
 </main>

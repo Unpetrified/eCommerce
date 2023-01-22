@@ -3,18 +3,16 @@
 {%block style %}<link rel="stylesheet" href="{% static 'css/store.css' %}">{% endblock %}
 {%block title %}<title>Unpetrified | Shop</title>{% endblock %}
 {%block content %}
-
     <main class="products">
         {% for product in products reversed %}
             <section class="product">
                 <img src="{{product.getImageUrl}}" alt="" class="product-image">
                 <div class="product-name">{{product.name}}</div>
                 <div class="btns-price">
-                    <a href="" class="add-cart-btn">Add to Cart</a>
+                    <a data-product="{{product.id}}" data-action="add" class="add-cart-btn">Add to Cart</a>
                     <a href="{% url 'view' product.id %}" class="view-product-btn">View</a>
                     <span class="price">{{product.price|floatformat:2}}</span>
                 </div>
-                <h1></h1>
             </section>
         {% endfor %}
     </main>

@@ -47,6 +47,7 @@ nav li {
 .login {
     border: 1px solid;
     display: flex;
+    justify-content: center;
     gap: .5em;
     padding: .25em .5em;
     border-radius: 1em;
