@@ -1,7 +1,7 @@
 if (user==='AnonymousUser') {
     console.log('User not authenticated');
 } else {
-    updateCartIndicator('.cart-quantity')
+    updateCartIndicator('.cart-quantity');
     console.log('User is authenticated');
 }
 
@@ -27,7 +27,7 @@ function updateUserOrder(productId, action, event = false) {
     }).then((data) => {
         updateCartIndicator('.cart-quantity');
         updateCartIndicator('.items')
-        if (event) {
+    if (event) {
             var qnt = event.target.parentNode.parentNode.children[0];
             qnt.textContent = data;
             if (data === 0) {
@@ -41,5 +41,5 @@ function updateCartIndicator(path) {
     var url = '/addtocart'
     fetch(url).then((res) => {return res.json()}).then((data) => {
         $(path).text(data);
-    })
+    });
 }

@@ -23,7 +23,7 @@ class UpdateCart(View):
     def get(self, request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
-        items_in_cart = order.getItemTotal()
+        items_in_cart = order.getItemTotal
         return JsonResponse(items_in_cart, safe=False)
     def post(self, request):
         data = json.loads(request.body)
