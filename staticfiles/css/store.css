@@ -57,7 +57,7 @@
 }
 
 .price::before {
-    content: "$";
+    content: "\20A6";
     font-weight: 900;
 }
 

@@ -75,7 +75,7 @@ th, td{
 
 tr td:nth-child(3)::before,
 tr td:nth-child(5)::before {
-    content: "$";
+    content: "\20A6";
     font-weight: 600;
 }
 

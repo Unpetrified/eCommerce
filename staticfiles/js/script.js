@@ -1,7 +1,7 @@
 if (user==='AnonymousUser') {
     console.log('User not authenticated');
 } else {
-    updateCartIndicator('.cart-quantity');
+    updateCartIndicator();
     console.log('User is authenticated');
 }
 
@@ -25,21 +25,28 @@ function updateUserOrder(productId, action, event = false) {
     ).then((res) => {
         return res.json()
     }).then((data) => {
-        updateCartIndicator('.cart-quantity');
+        updateCartIndicator();
         updateCartIndicator('.items')
     if (event) {
-            var qnt = event.target.parentNode.parentNode.children[0];
-            qnt.textContent = data;
-            if (data === 0) {
-                event.target.parentNode.parentNode.parentNode.remove()
+            var qnt = event.target.parentNode.parentNode.children[0],
+                item_total = event.target.parentNode.parentNode.parentNode.children[4];
+            data = JSON.parse(data);
+            if (data['item_qnty'] === 0) {
+                event.target.parentNode.parentNode.parentNode.remove();
+                return
             }
+            qnt.textContent = data['item_qnty'];
+            item_total.textContent = data['item_total'];
         }
     })
 }
 
-function updateCartIndicator(path) {
+function updateCartIndicator(quantity = '.cart-quantity', total='.total') {
     var url = '/addtocart'
     fetch(url).then((res) => {return res.json()}).then((data) => {
-        $(path).text(data);
+        data = JSON.parse(data);
+        $(quantity).text(data['items']);
+        num = data['total']
+        $(total).text(data['total'])
     });
 }

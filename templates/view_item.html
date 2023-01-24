@@ -21,7 +21,7 @@
             <img src="{{product.image.url}}" alt="" class="product-image">
             <div class="product-name">{{product.name}}</div>
             <div class="btns-price">
-                <input type="number" class="qnty" placeholder="quantity" min="0">
+                <input type="number"placeholder="quantity" min="0">
                 <a href="" class="add">Add to Cart</a>
                 <span class="price">{{product.price}}</span>
             </div>
@@ -32,7 +32,9 @@
 
 {% endblock %}
 {%block script %}
-<script src="{% static 'js/cart.js' %}"></script>    
-<script src="{% static 'js/script.js' %}"></script>    
+<script src="{% static 'js/script.js' %}"></script> 
+<script>
+    var url = "{% url 'view' product.id %}"
+</script>   
 <script src="{% static 'js/view_item.js' %}"></script>
 {% endblock %} 

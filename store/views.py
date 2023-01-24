@@ -1,4 +1,6 @@
+from ast import Or
 from itertools import product
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views import View
@@ -24,7 +26,9 @@ class UpdateCart(View):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
         items_in_cart = order.getItemTotal
-        return JsonResponse(items_in_cart, safe=False)
+        cart_total = order.getCartTotal.__round__(2)
+        context = {'items':items_in_cart, 'total':cart_total}
+        return JsonResponse(json.dumps(context), safe=False)
     def post(self, request):
         data = json.loads(request.body)
         productId = data['productId']
@@ -43,14 +47,34 @@ class UpdateCart(View):
 
         if order_item.quantity <= 0:
             order_item.delete()
+        
         item_quantity = order_item.quantity
-        return JsonResponse(item_quantity, safe=False)
+        total = order_item.getTotal.__round__(2)
+
+        context = {'item_qnty':item_quantity, 'item_total':total}
+
+        return JsonResponse(json.dumps(context), safe=False)
 
 class View(View):
     
     def get(self, request, id):
         product = Product.objects.get(id=id)
         return render(request, 'view_item.html', {'product':product})
+
+    def post(self, request, id):
+        
+        product = Product.objects.get(id=id)
+        order, created = Order.objects.get_or_create(customer = request.user.customer, complete=False)
+        order_item, created = OrderItem.objects.get_or_create(order = order, product = product)
+        
+        new_qnty = int(request.body)
+        order_item.quantity = new_qnty
+        print(new_qnty, order_item.quantity)
+
+        if new_qnty <= 0:
+            order_item.delete()
+
+        return JsonResponse("Item added to cart successfully", safe=False)
 
 class Cart(View):
 

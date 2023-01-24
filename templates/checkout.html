@@ -37,7 +37,7 @@
                 <p class="span product">
                     <img src="{{item.product.getImageUrl}}" class="p_image">
                     <span>{{item.product.name}}</span>
-                    <span>${{item.product.price|floatformat:2}}</span>
+                    <span>&#8358;{{item.product.price|floatformat:2}}</span>
                     <span>x{{item.quantity}}</span>
                 </p>
             {% endfor %}
