@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=15, default="000")
 
     def __str__(self):
         return self.name
@@ -56,7 +56,6 @@ class Order(models.Model):
         total = sum([item.quantity for item in orderItems])
         return total
 
-
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null = True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True)
@@ -73,6 +72,7 @@ class Shipping(models.Model):
     address = models.CharField(max_length = 200)
     city = models.CharField(max_length = 90)
     state = models.CharField(max_length = 200)
+    country = models.CharField(max_length = 200, blank=False)
     date_added = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):

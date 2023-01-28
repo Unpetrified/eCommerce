@@ -34,7 +34,7 @@
                     {% for item in cart %}
                         <tr>
                             <td><img class="image" src="{{item.product.getImageUrl}}"></td>
-                            <td>{{item.product.name}}</td>
+                            <td><a href="{% url 'view' item.product.id %}" class="p_name">{{item.product.name}}</a></td>
                             <td>{{item.product.price|floatformat:2}}</td>
                             <td class="quantity">
                                 <span>{{item.quantity}}</span>

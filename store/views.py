@@ -1,12 +1,10 @@
 from ast import Or
-from itertools import product
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth.models import User
 from .models import *
-import json
+import json, uuid
 
 class Store(View):
 
@@ -14,17 +12,14 @@ class Store(View):
         products = Product.objects.all()
         return render(request, 'store.html', {'products':products})
 
-    def post(self, request):
-        product_id = request.post['id']
-        product = Product.objects.get(id=product_id)
-        customer = request.user.customer
-        order = Order.objects.get_or_create(customer=customer, complete = False)
-        pass
-
 class UpdateCart(View):
     def get(self, request):
+        customer = Customer.objects.get_or_create(user=request.user, name=request.user.username)
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
+        if created:
+            order.transaction_id = uuid.uuid4()
+            order.save()
         items_in_cart = order.getItemTotal
         cart_total = order.getCartTotal.__round__(2)
         context = {'items':items_in_cart, 'total':cart_total}
@@ -35,7 +30,7 @@ class UpdateCart(View):
         action = data['action']
         product = Product.objects.get(id=productId)
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete = False)
+        order = Order.objects.get(customer=customer, complete = False)
         order_item, created = OrderItem.objects.get_or_create(product=product, order=order)
 
         if action == 'add':
@@ -64,14 +59,13 @@ class View(View):
     def post(self, request, id):
         
         product = Product.objects.get(id=id)
-        order, created = Order.objects.get_or_create(customer = request.user.customer, complete=False)
+        order = Order.objects.get(customer = request.user.customer, complete=False)
         order_item, created = OrderItem.objects.get_or_create(order = order, product = product)
         
-        new_qnty = int(request.body)
-        order_item.quantity = new_qnty
-        print(new_qnty, order_item.quantity)
+        order_item.quantity = int(request.body)
+        order_item.save()
 
-        if new_qnty <= 0:
+        if order_item.quantity <= 0:
             order_item.delete()
 
         return JsonResponse("Item added to cart successfully", safe=False)
@@ -91,15 +85,50 @@ class Cart(View):
 
 class Checkout(View):
 
+    def post(self, request):
+        data = json.loads(request.body)
+        shippingInfo = data['shippingInfo']
+        address = shippingInfo['address']
+        city = shippingInfo['city']
+        state = shippingInfo['state']
+        country = shippingInfo['country']
+        if request.user.is_authenticated:
+            customer = request.user.customer
+            order = Order.objects.filter(customer=customer)
+            order = order[order.count()-1]
+        else:
+            userInfo = data['userInfo']
+            name = userInfo['name']
+            phone = userInfo['phone']
+            customer = Customer(name = name, phone = phone)
+            customer.save()
+        
+        shipping = Shipping(customer=customer, order=order, address=address, city=city, state=state, country=country)
+        if float(data['userInfo']['total']) == order.getCartTotal:
+            order.complete = True
+            order.save()
+        shipping.save()
+        
+        return JsonResponse('Order processed. Payment made', safe=False)
+
     def get(self, request):
         if request.user.is_authenticated:
             customer = request.user.customer
             order, created = Order.objects.get_or_create(customer=customer, complete = False)
+            if created:
+                order.transaction_id = uuid.uuid4()
+                order.save()
             items = order.orderitem_set.all()
+            if Shipping.objects.filter(customer=customer).exists:
+                shipping = Shipping.objects.filter(customer=customer)
+                shipping = shipping[shipping.count()-1]
+            else:
+                shipping = ""
         else:
             items = []
             order = {'getCartTotal':0, 'getItemTotal':0}
-        context = {'cart':items, 'cartDetails':order}
+            shipping=""
+        context = {'cart':items, 'cartDetails':order, 'shippingDetails':shipping}
         return render(request, 'checkout.html', context)
 
 class Register(View):
@@ -112,6 +141,7 @@ class Register(View):
     def post(self, request):
         username = request.POST['username']
         email = request.POST['email']
+        phone = request.POST['phone']
         password = request.POST['password1']
         password2 = request.POST['password2']
 
@@ -130,6 +160,8 @@ class Register(View):
                 
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
+            customer = Customer(user=user, name=username, phone = phone)
+            customer.save()
             return redirect('login?next=/')
                 
         else:

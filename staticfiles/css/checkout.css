@@ -12,22 +12,34 @@
 }
 
 main {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
     width: 97%;
     margin: 1em auto;
-    justify-content: space-around;
-    align-items: flex-start;
     gap: 1em;
 }
 
 .section {
-    padding: .5em .75em;
+    padding: .65em .75em;
     background-color: white;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    border-radius: .5em;
+}
+
+.shipping-field {
+    margin-bottom: 2em;
+}
+
+.payment-field {
+    display: none;
 }
 
 .container {
     margin-bottom: .5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
 .span {
@@ -36,10 +48,15 @@ main {
     font-weight: 600;
 }
 
+.span:last-of-type {
+    margin-bottom: 0;
+}
+
 input {
     line-height: 1.1em;
     border: 1.5px solid rgba(0, 0, 0, 0.2);
     padding: .5em;
+    width: 46%;
 }
 
 form .span:last-of-type {
@@ -54,12 +71,24 @@ form .span:last-of-type {
 }
 
 .product {
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
     align-items: center;
-    justify-content: space-around ;
-    font-weight: 500;
+}
+
+.p_image, .p_name {
+    text-align: left;
+}
+
+.product span {
+    text-align: right;
 }
 
 .p_image {
-    width: 15%;
+    width: 5em;
+}
+
+.p_name {
+    text-decoration: none;
 }

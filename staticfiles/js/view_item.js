@@ -10,8 +10,10 @@ $('.add').on('click', function (e) {
             'X-CSRFToken' : csrf_token
         },
         body : qnty.val()
-    }).then((res) => {res.json()}).then((data) => {
-        console.log(data);
+    }).then((res) => {
+        return res.json();
+    }).then((data) => {
+        alert(data);
         updateCartIndicator();
     })
 

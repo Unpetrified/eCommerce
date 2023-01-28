@@ -3,12 +3,12 @@
     display: grid;
     grid-template-columns: repeat(3, 3fr);
     gap: 1.5em;
-    width: calc(66em + .5em*6 + 1.5em*2);
+    width: 100%;
     margin: 2em auto;
 }
 
 .product {
-    width: 22em;
+    width: 90%;
     padding: .75em .5em;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
 }
 
 .product-image {
-    width: 15em;
+    width: 80%;
     aspect-ratio: 1/1;
     align-self: center;
 }

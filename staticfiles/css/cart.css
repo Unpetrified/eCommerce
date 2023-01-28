@@ -41,7 +41,7 @@ p {
 }
 
 .total::before {
-    content: "$";
+    content: "\20A6";
 }
 
 .checkout {
@@ -71,6 +71,10 @@ th, td{
 
 .image {
     width: 4em;
+}
+
+.p_name {
+    text-decoration: none;
 }
 
 tr td:nth-child(3)::before,

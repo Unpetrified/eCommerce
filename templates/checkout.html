@@ -4,24 +4,32 @@
 {% block title %} <title>Unpetrified | Checkout</title>{% endblock %}
 {% block content %} 
 <main>
-    <form action="" class="section">
-        <p class="container">
-            <input type="text" name="name" placeholder="Name">
-            <input type="email" name="email" placeholder="Email">
-        </p>
-        <p class="span">
-            Shipping Information
-        </p>
-        <p class="container">
-            <input type="text" name="address" placeholder="Address">
-            <input type="text" name="city" placeholder="City">
-        </p>
-        <p class="container">
-            <input type="text" name="state" placeholder="State">
-            <input type="number" name="zip" placeholder="Zip code">
-        </p>
-        <input type="submit" value="Continue" class="span">
-    </form>
+    <section>
+        <form class="section shipping-field">
+            <p class="container contact">
+                <input type="text" id="name" placeholder="Name">
+                <input type="tel" id="number" placeholder="Phone Number">
+            </p>
+            <p class="span">
+                Shipping Information
+            </p>
+            <p class="container">
+                <input type="text" id="address" placeholder="Address" value="{{shippingDetails.address}}">
+                <input type="text" id="city" placeholder="City" value="{{shippingDetails.city}}">
+            </p>
+            <p class="container">
+                <input type="text" id="state" placeholder="State" value="{{shippingDetails.state}}">
+                <input type="text" id="country" placeholder="Country" value="{{shippingDetails.country}}">
+            </p>
+            <input type="submit" value="Continue" class="span shipping-btn">
+        </form>
+        <form class="section payment-field">
+            <p>
+                <input type="button" value="Payment Options">
+                <input class="span make-payment" type="button" value="Make Payment">
+            </p>
+        </form>
+    </section>
     <section class="section">
         <p>
             <a href="{% url 'cart' %}" class="back">
@@ -36,7 +44,7 @@
             {% for item in cart %}
                 <p class="span product">
                     <img src="{{item.product.getImageUrl}}" class="p_image">
-                    <span>{{item.product.name}}</span>
+                    <a href="{% url 'view' item.product.id %}" class="p_name">{{item.product.name}}</a>
                     <span>&#8358;{{item.product.price|floatformat:2}}</span>
                     <span>x{{item.quantity}}</span>
                 </p>
@@ -46,9 +54,15 @@
             Items: {{cartDetails.getItemTotal}}
         </p>
         <p class="span total">
-            Total: ${{cartDetails.getCartTotal}}
+            Total: &#8358;{{cartDetails.getCartTotal}}
         </p>
     </section>
 </main>
 {% endblock %}
-{% block script %} <script src=""></script> {% endblock %}
+{% block script %} 
+    <script>
+        var total = '{{cartDetails.getCartTotal}}',
+            url = "{% url 'checkout' %}";
+    </script>
+    <script src="{% static 'js/checkout.js' %}"></script> 
+{% endblock %}
