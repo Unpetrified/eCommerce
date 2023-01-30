@@ -42,11 +42,23 @@ function updateUserOrder(productId, action, event = false) {
 }
 
 function updateCartIndicator(quantity = '.cart-quantity', total='.total') {
-    var url = '/addtocart'
+    var url = '/addtocart';
     fetch(url).then((res) => {return res.json()}).then((data) => {
         data = JSON.parse(data);
         $(quantity).text(data['items']);
-        num = data['total']
-        $(total).text(data['total'])
+        $(total).text(data['total']);
+        checkEmptyCart(data['items']);
     });
+}
+
+function checkEmptyCart(val) {
+    var cart_table = $('.display-cart');
+    if (val == 0) {
+        console.log('Cart is empty');
+        cart_table.css('display', 'none')
+        $('.cart_details').html('<p class="empty-cart">Your cart is empty.</p>')
+    } else {
+        console.log('Items are in cart');
+        cart_table.css('display', 'block')
+    }
 }

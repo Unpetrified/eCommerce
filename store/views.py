@@ -14,7 +14,7 @@ class Store(View):
 
 class UpdateCart(View):
     def get(self, request):
-        customer = Customer.objects.get_or_create(user=request.user, name=request.user.username)
+        customer = Customer.objects.get(user=request.user)
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
         if created:
@@ -104,11 +104,12 @@ class Checkout(View):
             customer.save()
         
         shipping = Shipping(customer=customer, order=order, address=address, city=city, state=state, country=country)
-        if float(data['userInfo']['total']) == order.getCartTotal:
-            order.complete = True
-            order.save()
         shipping.save()
         
+        if float(data['userInfo']['total']) != order.getCartTotal or order.getCartTotal == 0:
+            return JsonResponse('Order could not be processed. Try again', safe=False)    
+        order.complete = True
+        order.save()
         return JsonResponse('Order processed. Payment made', safe=False)
 
     def get(self, request):
@@ -119,7 +120,7 @@ class Checkout(View):
                 order.transaction_id = uuid.uuid4()
                 order.save()
             items = order.orderitem_set.all()
-            if Shipping.objects.filter(customer=customer).exists:
+            if Shipping.objects.filter(customer=customer).exists and Shipping.objects.filter(customer=customer).count() > 0:
                 shipping = Shipping.objects.filter(customer=customer)
                 shipping = shipping[shipping.count()-1]
             else:

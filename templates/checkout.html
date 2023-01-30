@@ -7,19 +7,19 @@
     <section>
         <form class="section shipping-field">
             <p class="container contact">
-                <input type="text" id="name" placeholder="Name">
-                <input type="tel" id="number" placeholder="Phone Number">
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="tel" id="number" placeholder="Phone Number" required>
             </p>
             <p class="span">
                 Shipping Information
             </p>
             <p class="container">
-                <input type="text" id="address" placeholder="Address" value="{{shippingDetails.address}}">
-                <input type="text" id="city" placeholder="City" value="{{shippingDetails.city}}">
+                <input type="text" id="address" placeholder="Address" value="{{shippingDetails.address}}" required>
+                <input type="text" id="city" placeholder="City" value="{{shippingDetails.city}}" required>
             </p>
             <p class="container">
-                <input type="text" id="state" placeholder="State" value="{{shippingDetails.state}}">
-                <input type="text" id="country" placeholder="Country" value="{{shippingDetails.country}}">
+                <input type="text" id="state" placeholder="State" value="{{shippingDetails.state}}" required>
+                <input type="text" id="country" placeholder="Country" value="{{shippingDetails.country}}" required>
             </p>
             <input type="submit" value="Continue" class="span shipping-btn">
         </form>
@@ -54,7 +54,7 @@
             Items: {{cartDetails.getItemTotal}}
         </p>
         <p class="span total">
-            Total: &#8358;{{cartDetails.getCartTotal}}
+            Total: &#8358;{{cartDetails.getCartTotal|floatformat:2}}
         </p>
     </section>
 </main>

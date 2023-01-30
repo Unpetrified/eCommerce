@@ -9,8 +9,7 @@ $('.shipping-btn').on('click', function (e) {
     $('.payment-field').toggle();
 });
 
-$('.shipping-field').on('click', function (e) {
-    e.preventDefault();
+$('.shipping-field').on('click', function () {
     if ($('.shipping-btn').css('display') === 'none') {
         $('.shipping-btn').toggle();
         $('.payment-field').toggle();   
