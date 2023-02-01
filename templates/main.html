@@ -40,12 +40,13 @@
             setCookie('cart', cart)
         }
 
-        function updateCart(quantity = '.cart-quantity', total='.total') {
+        function updateCart(quantity = '.cart-quantity', quantity_total='.items') {
             var total = 0;
             Object.keys(cart).forEach(key => {
                 total += cart[key]['quantity'];
             });
             $(quantity).text(total);
+            $(quantity_total).text(total);
 }
 
         function getCookie(name) {
@@ -64,7 +65,7 @@
             }
 
         function setCookie(name, value) {
-            document.cookie = name + '=' + JSON.stringify(value) + ';domain=;path=/';
+            document.cookie = name + '=' + JSON.stringify(value) + ';domain=;path=/;SameSite=Strict';
         }
     </script>
     {%block script %}{% endblock %}

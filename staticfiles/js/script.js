@@ -1,6 +1,5 @@
 if (user==='AnonymousUser') {
     updateCart()
-    console.log('User not authenticated');
     $('.add-cart-btn').on('click', function (e) {
         e.preventDefault();
         var productId = this.dataset.product;
@@ -11,7 +10,6 @@ if (user==='AnonymousUser') {
     });
 } else {
     updateCartIndicator();
-    console.log('User is authenticated');
     $('.add-cart-btn').on('click', function (e) {
         e.preventDefault();
         var productId = this.dataset.product;
@@ -71,7 +69,7 @@ function checkEmptyCart(val) {
     }
 }
 
-function addToCart(productId, action, value = 0) {
+function addToCart(productId, action, e = false, value = 0) {
     if (action === 'add') {
 
         if(cart[productId] == undefined) {
@@ -87,13 +85,39 @@ function addToCart(productId, action, value = 0) {
             delete cart[productId];
         }
     } else if (action === 'view-addition') {
-        console.log(value);
         if (value > 0) {
             cart[productId] = {'quantity':value};
         } else if (value <= 0) {
             delete cart[productId];
         }
     }
+    if (e) {
+        let quantity = 0
+        if (cart[productId]) {
+            quantity = cart[productId]['quantity'];
+        }
+        if (quantity <= 0) {
+            let price = e.target.parentNode.parentNode.parentNode.children[2].textContent,
+                old_total = $('.total'),
+                new_total = eval(old_total.text() - price);
+            old_total.text(new_total.toFixed(2));
+            e.target.parentNode.parentNode.parentNode.remove();
+        } else {
+            let price = e.target.parentNode.parentNode.parentNode.children[2].textContent,
+                total = eval(price * quantity),
+                old_total = $('.total'),
+                item_total = e.target.parentNode.parentNode.parentNode.children[4],
+                item_qnty = e.target.parentNode.parentNode.children[0],
+                cart_total = eval(old_total.text() - item_total.textContent);
+                
+            item_total.textContent = total.toFixed(2);
+            item_qnty.textContent = quantity;
+            
+            cart_total += parseFloat(item_total.textContent);
+            old_total.text(cart_total.toFixed(2));
+        }
+    }
+    checkEmptyCart(Object.keys(cart).length);
     setCookie('cart', cart);
     updateCart();
 }

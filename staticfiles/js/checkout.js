@@ -52,6 +52,7 @@ function submitForm() {
     .then((data) => {
         console.log(data);
         alert('Transaction complete');
+        setCookie('cart', {});
         window.location.href = '/'
     })
 }

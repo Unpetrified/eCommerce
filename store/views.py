@@ -106,6 +106,48 @@ class Cart(View):
         return render(request, 'cart.html', context)
 
 class Checkout(View):
+    
+    def get(self, request):
+        if request.user.is_authenticated:
+            customer = request.user.customer
+            order, created = Order.objects.get_or_create(customer=customer, complete = False)
+            if created:
+                order.transaction_id = uuid.uuid4()
+                order.save()
+            items = order.orderitem_set.all()
+            if Shipping.objects.filter(customer=customer).exists and Shipping.objects.filter(customer=customer).count() > 0:
+                shipping = Shipping.objects.filter(customer=customer)
+                shipping = shipping[shipping.count()-1]
+            else:
+                shipping = ""
+        else:
+            try:
+                cart = json.loads(request.COOKIES['cart'])
+            except:
+                cart = {}
+            items = []
+            cartTotal = 0
+            itemTotal = 0
+            for key in cart:
+                product = Product.objects.get(id=key)
+                total = product.price * cart[key]['quantity']
+                item = {
+                    'product' : {
+                        'id' : product.id,
+                        'name' : product.name,
+                        'price' : product.price,
+                        'getImageUrl' : product.getImageUrl
+                    },
+                    'quantity' : cart[key]['quantity'],
+                    'getTotal' : total
+                }
+                items.append(item)
+                cartTotal += total
+                itemTotal += cart[key]['quantity']
+            order = {'getCartTotal':cartTotal, 'getItemTotal':itemTotal}
+        shipping=""
+        context = {'cart':items, 'cartDetails':order, 'shippingDetails':shipping}
+        return render(request, 'checkout.html', context)
 
     def post(self, request):
         data = json.loads(request.body)
@@ -124,6 +166,16 @@ class Checkout(View):
             phone = userInfo['phone']
             customer = Customer(name = name, phone = phone)
             customer.save()
+            order = Order(customer=customer, transaction_id = uuid.uuid4())
+            order.save()
+            try:
+                cart = json.loads(request.COOKIES['cart'])
+            except:
+                cart = {}
+            for key in cart:
+                product = Product.objects.get(id=key)
+                order_item = OrderItem(product=product, order = order, quantity = cart[key]['quantity'])
+                order_item.save()
         
         shipping = Shipping(customer=customer, order=order, address=address, city=city, state=state, country=country)
         shipping.save()
@@ -133,26 +185,6 @@ class Checkout(View):
         order.complete = True
         order.save()
         return JsonResponse('Order processed. Payment made', safe=False)
-
-    def get(self, request):
-        if request.user.is_authenticated:
-            customer = request.user.customer
-            order, created = Order.objects.get_or_create(customer=customer, complete = False)
-            if created:
-                order.transaction_id = uuid.uuid4()
-                order.save()
-            items = order.orderitem_set.all()
-            if Shipping.objects.filter(customer=customer).exists and Shipping.objects.filter(customer=customer).count() > 0:
-                shipping = Shipping.objects.filter(customer=customer)
-                shipping = shipping[shipping.count()-1]
-            else:
-                shipping = ""
-        else:
-            items = []
-            order = {'getCartTotal':0, 'getItemTotal':0}
-            shipping=""
-        context = {'cart':items, 'cartDetails':order, 'shippingDetails':shipping}
-        return render(request, 'checkout.html', context)
 
 class Register(View):
     

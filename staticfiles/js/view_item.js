@@ -4,7 +4,7 @@ $('.add').on('click', function (e) {
     if (user==='AnonymousUser') {
         var product = this.dataset.product,
             action = this.dataset.action;
-        addToCart(product, action, parseInt(qnty.val()));
+        addToCart(product, action, value = parseInt(qnty.val()));
     } else {
         fetch(url, {
             method : 'POST',
