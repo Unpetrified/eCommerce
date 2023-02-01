@@ -22,11 +22,12 @@
             <div class="product-name">{{product.name}}</div>
             <div class="btns-price">
                 <input type="number"placeholder="quantity" min="0">
-                <a href="" class="add">Add to Cart</a>
+                <a href="" class="add" data-product="{{product.id}}" data-action="view-addition">Add to Cart</a>
                 <span class="price">{{product.price}}</span>
             </div>
             <p class="description">{{product.description}}</p>
         </section>
+
 
     </main>
 

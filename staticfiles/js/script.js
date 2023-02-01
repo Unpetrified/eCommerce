@@ -1,16 +1,26 @@
 if (user==='AnonymousUser') {
+    updateCart()
     console.log('User not authenticated');
+    $('.add-cart-btn').on('click', function (e) {
+        e.preventDefault();
+        var productId = this.dataset.product;
+            action = this.dataset.action;
+            
+        addToCart(productId, action);
+        
+    });
 } else {
     updateCartIndicator();
     console.log('User is authenticated');
+    $('.add-cart-btn').on('click', function (e) {
+        e.preventDefault();
+        var productId = this.dataset.product;
+            action = this.dataset.action;
+            
+        updateUserOrder(productId, action);
+        
+    });
 }
-
-$('.add-cart-btn').on('click', function (e) {
-    e.preventDefault();
-    var productId = this.dataset.product;
-        action = this.dataset.action
-    updateUserOrder(productId, action)
-});
 
 function updateUserOrder(productId, action, event = false) {
     var url = '/addtocart';
@@ -54,11 +64,36 @@ function updateCartIndicator(quantity = '.cart-quantity', total='.total') {
 function checkEmptyCart(val) {
     var cart_table = $('.display-cart');
     if (val == 0) {
-        console.log('Cart is empty');
         cart_table.css('display', 'none')
         $('.cart_details').html('<p class="empty-cart">Your cart is empty.</p>')
     } else {
-        console.log('Items are in cart');
         cart_table.css('display', 'block')
     }
+}
+
+function addToCart(productId, action, value = 0) {
+    if (action === 'add') {
+
+        if(cart[productId] == undefined) {
+            cart[productId] = {'quantity':1};
+        } else {
+            cart[productId]['quantity'] += 1;
+        }
+
+    } else if (action === 'remove') {
+
+        cart[productId]['quantity'] -= 1;
+        if (cart[productId]['quantity'] <= 0) {
+            delete cart[productId];
+        }
+    } else if (action === 'view-addition') {
+        console.log(value);
+        if (value > 0) {
+            cart[productId] = {'quantity':value};
+        } else if (value <= 0) {
+            delete cart[productId];
+        }
+    }
+    setCookie('cart', cart);
+    updateCart();
 }

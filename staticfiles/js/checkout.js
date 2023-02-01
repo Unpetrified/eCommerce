@@ -1,11 +1,13 @@
 if (user !== 'AnonymousUser') {
-    $('.contact').css('display', 'none')
+    $('.contact').html('');
+} else {
+    updateCart();
 }
 
-$('.shipping-btn').on('click', function (e) {
+$('.shipping-field').on('submit', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    $(this).toggle();
+    $('.shipping-btn').toggle();
     $('.payment-field').toggle();
 });
 

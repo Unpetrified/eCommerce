@@ -1,3 +1,4 @@
+
 $('.increase').on('click', function (e) {
     var productId = this.dataset.product;
         action = this.dataset.action;

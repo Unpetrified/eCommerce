@@ -152,11 +152,11 @@ class Register(View):
                 return render(request, self.template_name, {'password_error':messages})
 
             if User.objects.filter(username=username).exists():
-                messages = '* username already taken'
+                messages = '* username already exists try another one'
                 return render(request, self.template_name, {'username_error':messages})
 
             if User.objects.filter(email = email).exists():
-                messages = '* email already used'
+                messages = '* email already in used'
                 return render(request, self.template_name, {'email_error':messages})
                 
             user = User.objects.create_user(username=username, email=email, password=password)

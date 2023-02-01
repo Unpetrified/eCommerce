@@ -30,9 +30,25 @@
     {%block content %}{% endblock %}
     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script type="text/javascript"> 
-        var user = '{{request.user}}',
-            csrf_token = getCSRF('csrftoken');
-        function getCSRF(name) {
+        const user = '{{request.user}}',
+            csrf_token = getCookie('csrftoken');
+        
+        let cart = JSON.parse(getCookie('cart'));
+
+        if (cart == null) {
+            cart = {};
+            setCookie('cart', cart)
+        }
+
+        function updateCart(quantity = '.cart-quantity', total='.total') {
+            var total = 0;
+            Object.keys(cart).forEach(key => {
+                total += cart[key]['quantity'];
+            });
+            $(quantity).text(total);
+}
+
+        function getCookie(name) {
                 var cookieValue = null;
                 if(document.cookie && document.cookie !== '') {
                     var cookies = document.cookie.split(';');
@@ -46,6 +62,10 @@
                 }
                 return cookieValue
             }
+
+        function setCookie(name, value) {
+            document.cookie = name + '=' + JSON.stringify(value) + ';domain=;path=/';
+        }
     </script>
     {%block script %}{% endblock %}
 </body>
