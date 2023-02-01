@@ -78,8 +78,30 @@ class Cart(View):
             order, created = Order.objects.get_or_create(customer=customer, complete = False)
             items = order.orderitem_set.all()
         else:
+            try:
+                cart = json.loads(request.COOKIES['cart'])
+            except:
+                cart = {}
             items = []
-            order = {'getCartTotal':0, 'getItemTotal':0}
+            cartTotal = 0
+            itemTotal = 0
+            for key in cart:
+                product = Product.objects.get(id=key)
+                total = product.price * cart[key]['quantity']
+                item = {
+                    'product' : {
+                        'id' : product.id,
+                        'name' : product.name,
+                        'price' : product.price,
+                        'getImageUrl' : product.getImageUrl
+                    },
+                    'quantity' : cart[key]['quantity'],
+                    'getTotal' : total
+                }
+                items.append(item)
+                cartTotal += total
+                itemTotal += cart[key]['quantity']
+            order = {'getCartTotal':cartTotal, 'getItemTotal':itemTotal}
         context = {'cart':items, 'cartDetails':order}
         return render(request, 'cart.html', context)
 
