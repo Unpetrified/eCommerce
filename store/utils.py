@@ -9,7 +9,10 @@ def cookieCart(request):
     items = []
     cartTotal = 0
     itemTotal = 0
+    keys = []
     for key in cart:
+        if not Product.objects.filter(id = key):
+            keys = keys.append(key)
         product = Product.objects.get(id=key)
         total = product.price * cart[key]['quantity']
         item = {
