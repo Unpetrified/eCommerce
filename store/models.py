@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.core.validators import MaxLengthValidator
 from django.contrib.auth.models import User
@@ -10,8 +11,20 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.CharField(max_length = 100)
+    
+    @property
+    def no_of_products(self):
+        products = self.product_set.all()
+        return products.count()
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length = 100, null=False)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     price = models.FloatField()
     description = models.TextField(null = True,
         validators=[

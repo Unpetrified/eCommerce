@@ -53,3 +53,6 @@ def anonymousUser(request, data):
         order_item = OrderItem(product=product, order = order, quantity = cart[key]['quantity'])
         order_item.save()
     return {'order' : order, 'customer' : customer}
+
+def home(request, name=""):
+    pas

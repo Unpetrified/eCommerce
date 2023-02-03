@@ -11,6 +11,21 @@ class Store(View):
 
     def get(self, request):
         products = Product.objects.all()
+        categories = Category.objects.all()
+        new_cart = ""
+        if not request.user.is_authenticated:
+            cookieData = cookieCart(request)
+            if cookieData['edited']:
+                new_cart = cookieData['removed']
+                new_cart = json.dumps(new_cart)
+        context = {'products':products, 'new_cart':new_cart, 'categories':categories}
+        return render(request, 'store.html', context)
+
+class Categories(View):
+
+    def get(self, request, name):
+        category = Category.objects.get(name=name)
+        products = Product.objects.filter(category = category)
         new_cart = ""
         if not request.user.is_authenticated:
             cookieData = cookieCart(request)
