@@ -1,6 +1,7 @@
 if (user !== 'AnonymousUser') {
     $('.contact').html('');
 } else {
+    removedProduct();
     updateCart();
 }
 

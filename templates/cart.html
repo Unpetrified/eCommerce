@@ -58,6 +58,9 @@
 
 {% endblock %}
 {%block script %}
+    <script>
+        let cart_val = '{{new_cart}}';
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %} 

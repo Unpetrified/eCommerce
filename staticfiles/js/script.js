@@ -1,4 +1,5 @@
 if (user==='AnonymousUser') {
+    removedProduct()
     updateCart()
     $('.add-cart-btn').on('click', function (e) {
         e.preventDefault();

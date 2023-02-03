@@ -67,6 +67,13 @@
         function setCookie(name, value) {
             document.cookie = name + '=' + JSON.stringify(value) + ';domain=;path=/;SameSite=Strict';
         }
+
+        function removedProduct() {
+            if (cart_val !== "") {
+                var new_cart = JSON.parse('{{new_cart}}'.replaceAll("&quot;", "\""));
+                setCookie('cart', new_cart);
+            }
+        }
     </script>
     {%block script %}{% endblock %}
 </body>

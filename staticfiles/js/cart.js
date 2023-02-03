@@ -1,4 +1,5 @@
 if (user==='AnonymousUser') {
+    removedProduct();
     checkEmptyCart(Object.keys(cart).length);
 }
 

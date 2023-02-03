@@ -10,9 +10,11 @@ def cookieCart(request):
     cartTotal = 0
     itemTotal = 0
     keys = []
+    edited = False
     for key in cart:
         if not Product.objects.filter(id = key):
-            keys = keys.append(key)
+            keys.append(key)
+            continue
         product = Product.objects.get(id=key)
         total = product.price * cart[key]['quantity']
         item = {
@@ -28,7 +30,11 @@ def cookieCart(request):
         items.append(item)
         cartTotal += total
         itemTotal += cart[key]['quantity']
-    return {'order' : {'getCartTotal':cartTotal, 'getItemTotal':itemTotal}, 'items' : items, 'removed' : keys}
+    
+    for key in keys:
+        cart.pop(key)
+        edited = True
+    return {'order' : {'getCartTotal':cartTotal, 'getItemTotal':itemTotal}, 'items' : items, 'removed' : cart, 'edited' : edited}
 
 def anonymousUser(request, data):
     userInfo = data['userInfo']
@@ -47,15 +53,3 @@ def anonymousUser(request, data):
         order_item = OrderItem(product=product, order = order, quantity = cart[key]['quantity'])
         order_item.save()
     return {'order' : order, 'customer' : customer}
-
-def checkDeletedItems(request):
-    keys = ''
-    try:
-        cart = json.loads(request.COOKIES['cart'])
-    except:
-        cart = {}
-    for key in cart:
-        if not Product.objects.filter(id=key):
-            keys = keys.join(key)
-    return keys
-    
