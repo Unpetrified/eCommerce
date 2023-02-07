@@ -122,3 +122,38 @@ tr td:nth-child(5)::before {
     fill: rgb(95, 0, 0);
     transform: rotate(90deg);
 }
+
+@media screen and (max-width: 800px) {
+    main {
+        margin: 0;
+    }
+
+    section {
+        margin: 1em;
+        padding: 1em;
+    }
+
+    .cart_details span, .checkout {
+        display: flex;
+        flex-direction: column;
+        align-self: baseline;
+    }
+
+    .checkout {
+        padding: .2em .5em;
+    }
+
+    .remove {
+        display: none;
+    }
+
+    .increase-decrease {
+        margin-left: .1em;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .remove {
+        display: table-cell;
+    }
+}

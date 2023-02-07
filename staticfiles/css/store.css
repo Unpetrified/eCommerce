@@ -68,6 +68,17 @@
     bottom: 0;
 }
 
+@media screen and (max-width: 300px) {
+    .products {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-image {
+        width: 35%;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .products {
         grid-template-columns: repeat(2, 3fr);

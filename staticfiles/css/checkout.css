@@ -74,7 +74,7 @@ form .span:last-of-type {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 2fr 1fr 1fr;
-    align-items: center;
+    align-items: baseline;
 }
 
 .p_image, .p_name {
@@ -91,4 +91,19 @@ form .span:last-of-type {
 
 .p_name {
     text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        margin-top: 1em;
+        gap: 0em;
+    }
+
+    .shipping-field, .payment-field {
+        margin-bottom: 1em;
+    }
 }

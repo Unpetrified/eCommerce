@@ -22,9 +22,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Image</th>
+                        <th class="remove">Image</th>
                         <th>Item</th>
-                        <th>Price</th>
+                        <th class="remove">Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
                     </tr>
@@ -33,9 +33,9 @@
                 <tbody>
                     {% for item in cart %}
                         <tr>
-                            <td><img class="image" src="{{item.product.getImageUrl}}"></td>
+                            <td class="remove"><img class="image" src="{{item.product.getImageUrl}}"></td>
                             <td><a href="{% url 'view' item.product.id %}" class="p_name">{{item.product.name}}</a></td>
-                            <td>{{item.product.price|floatformat:2}}</td>
+                            <td class="remove">{{item.product.price|floatformat:2}}</td>
                             <td class="quantity">
                                 <span>{{item.quantity}}</span>
                                 <span class="increase-decrease">
