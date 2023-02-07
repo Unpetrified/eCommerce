@@ -40,8 +40,9 @@ def anonymousUser(request, data):
     userInfo = data['userInfo']
     name = userInfo['name']
     phone = userInfo['phone']
-    customer = Customer(name = name, phone = phone)
-    customer.save()
+    customer, created = Customer.objects.get_or_create(name = name, phone = phone)
+    if created:
+        customer.save()
     order = Order(customer=customer, transaction_id = uuid.uuid4())
     order.save()
     try:
@@ -55,4 +56,4 @@ def anonymousUser(request, data):
     return {'order' : order, 'customer' : customer}
 
 def home(request, name=""):
-    pas
+    pass

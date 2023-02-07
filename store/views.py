@@ -117,6 +117,7 @@ class Checkout(View):
     
     def get(self, request):
         shipping = ""
+        new_cart = ""
         if request.user.is_authenticated:
             customer = request.user.customer
             order = Order.objects.get(customer=customer, complete = False)
@@ -128,7 +129,6 @@ class Checkout(View):
             cookieData = cookieCart(request)
             order = cookieData['order']
             items = cookieData['items']
-            new_cart = ""
             if cookieData['edited']:
                 new_cart = cookieData['removed']
                 new_cart = json.dumps(new_cart)
