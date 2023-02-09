@@ -18,7 +18,7 @@ class Store(View):
             if cookieData['edited']:
                 new_cart = cookieData['removed']
                 new_cart = json.dumps(new_cart)
-        context = {'products':products, 'new_cart':new_cart, 'categories':categories}
+        context = {'products':products, 'new_cart':new_cart, 'categories':categories, 'view_cat' : True}
         return render(request, 'store.html', context)
 
 class Categories(View):
@@ -33,7 +33,7 @@ class Categories(View):
                 new_cart = cookieData['removed']
                 new_cart = json.dumps(new_cart)
                 print(type(new_cart))
-        context = {'products':products, 'new_cart':new_cart}
+        context = {'products':products, 'new_cart':new_cart, 'view_cat' : True}
         return render(request, 'store.html', context)
 
 class UpdateCart(View):
@@ -78,7 +78,9 @@ class View(View):
     
     def get(self, request, id):
         product = Product.objects.get(id=id)
-        return render(request, 'view_item.html', {'product':product})
+        related_products = Product.objects.filter(category = product.category)
+        context = {'product':product, 'related':related_products}
+        return render(request, 'view_item.html', context)
 
     def post(self, request, id):
         

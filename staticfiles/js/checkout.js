@@ -1,8 +1,8 @@
 if (user !== 'AnonymousUser') {
     $('.contact').html('');
 } else {
-    removedProduct();
-    updateCart();
+    removedProduct(cart_val);
+    updateCart(target = true);
 }
 
 $('.shipping-field').on('submit', function (e) {
