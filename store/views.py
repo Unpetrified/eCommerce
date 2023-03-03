@@ -75,7 +75,6 @@ class UpdateCart(View):
         return JsonResponse(json.dumps(context), safe=False)
 
 class View(View):
-    
     def get(self, request, id):
         product = Product.objects.get(id=id)
         related_products = Product.objects.filter(category = product.category)
