@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .models import *
 import json, uuid
 from .utils import *
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 class Store(View):
 
@@ -20,6 +22,18 @@ class Store(View):
                 new_cart = json.dumps(new_cart)
         context = {'products':products, 'new_cart':new_cart, 'categories':categories, 'view_cat' : True}
         return render(request, 'store.html', context)
+    
+    def post(self, request):
+        mail = EmailMessage(
+            "Just checking",
+            request.POST['body'],
+            settings.EMAIL_HOST_USER,
+            [request.POST['email']]
+        )
+        mail.fail_silently = False
+        mail.send()
+        print("post")
+        return self.get(request)
 
 class Categories(View):
 

@@ -1,0 +1,55 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+img {
+    width: 100px;
+}
+.carousel-container {
+    width: 105px;
+    margin: 2% 20%;
+    overflow: hidden;
+    position: relative;
+    outline: solid;
+}
+
+.carousel-slide {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.transition {
+    transition: transform ease-in-out 400ms;
+}
+
+svg {
+    fill: rgba(255, 255, 255, 0.73);
+    border-radius: 50%;
+    padding: .5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    z-index: 10;
+    width: 1.9rem;
+    transition: 300ms ease-in-out;
+}
+
+svg:hover {
+    fill: white;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+#prev {
+    position: absolute;
+    top: 50%;
+    transform: translateX(20%);
+}
+
+#next {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateX(-20%);
+}

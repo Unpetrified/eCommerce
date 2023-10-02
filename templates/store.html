@@ -16,7 +16,18 @@
             </section>
         {% endfor %}
     </main>
-
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="">Email</label>
+            <input type="email" name="email">
+        </p>
+        <p>
+            <label for="">Message</label>
+            <input type="text" name="body">
+        </p>
+        <input type="submit" value="Send">
+    </form>
 {% endblock %}
 {%block script %}
     <script type="text/javascript">let cart_val = '{{new_cart}}';</script>
