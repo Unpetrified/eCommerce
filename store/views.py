@@ -25,10 +25,10 @@ class Store(View):
     
     def post(self, request):
         mail = EmailMessage(
-            "Just checking",
+            "Mass email",
             request.POST['body'],
             settings.EMAIL_HOST_USER,
-            [request.POST['email']]
+            ['kingsleyobiefuna01@gmail.com', 'obiefunakingsley01@gmail.com', 'kt.obiefuna@stu.unizik.edu.ng']
         )
         mail.fail_silently = False
         mail.send()
